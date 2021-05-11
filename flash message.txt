@@ -1,0 +1,73 @@
+
+<div>
+@if (session()->has('message'))
+	<div class="alert alert-success">
+		{{ session('message') }}
+	</div>
+@endif
+</div>
+
+session()->flash('message', 'Post successfully updated.');
+return redirect()->to('/posts');
+
+
+
+@if(Session::has('success'))
+    <div class="alert alert-success">
+        {{Session::get('success')}}
+    </div>
+@endif
+return Redirect::to("/")->withSuccess('Success message');
+
+
+@if(Session::has('fail'))
+    <div class="alert alert-danger">
+       {{Session::get('fail')}}
+    </div>
+@endif
+return Redirect::to("/")->withFail('Error message');
+
+
+@if(Session::has('warning'))
+    <div class="alert alert-danger">
+       {{Session::get('warning')}}
+    </div>
+@endif
+return Redirect::to("/")-->with('warning',"Don't Open this link");
+
+
+@if(Session::has('info'))
+    <div class="alert alert-danger">
+       {{Session::get('info')}}
+    </div>
+@endif
+return Redirect::to("/")-->with('info',"Don't Open this link");
+
+
+@if(Session::has('success'))
+  <script type="text/javascript">
+     swal({
+         title:'Success!',
+         text:"{{Session::get('success')}}",
+         timer:5000,
+         type:'success'
+     }).then((value) => {
+       //location.reload();
+     }).catch(swal.noop);
+ </script>
+ @endif
+
+
+@if(Session::has('fail'))
+ <script type="text/javascript">
+    swal({
+        title:'Oops!',
+        text:"{{Session::get('fail')}}",
+        type:'error',
+        timer:5000
+    }).then((value) => {
+      //location.reload();
+    }).catch(swal.noop);
+</script>
+@endif
+
