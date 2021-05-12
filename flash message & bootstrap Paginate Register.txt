@@ -1,0 +1,273 @@
+------------------------------------------------------------------------------------------
+
+La facade Session
+L'helper session()
+Session::get('clef'); // Récupère l'information depuis la session
+session('clef'); // Même chose que précédemment
+session()->get('clef'); 
+
+session(); // Retourne une instance du SessionManager
+
+De la même façon si vous souhaitez ajouter une information en session vous pouvez utiliser la méthode put().
+Session::put('clef', 'valeur'); 
+
+De la même façon vous pouvez utiliser la notation avec des . pour atteindre rapidement un élément dans un tableau.
+Session::put('User.username', 'valeur');
+
+Si vous souhaitez supprimer un élément de la session vous pouvez utiliser la méthode forget.
+Session::forget('clef');
+
+Flash
+Enfin, il est possible de créer des données "flash" qui ne seront stockées que pour la prochaine requête. 
+Cette méthode est très pratique pour afficher un message de succès par exemple ou gérer les erreurs de validation.
+Session::flash('clef', 'valeur'); 
+
+Il est d'ailleurs possible de "flasher" des données directement depuis une redirection.
+redirect('/login')->with('error', 'Identifiants incorrects'); 
+
+Enfin côté, le code côté vue est très simple.
+@if(Session::has('error')) 
+    <div class="alert alert-danger">
+        {{ Session::get('error') }}
+    </div>
+@endif
+
+------------------------------------------------------------------------------------------
+
+<div>
+@if (session::->has('message'))
+	<div class="alert alert-success">
+		<button type="button" class="close" data-dismiss="alert">×</button> 
+		<strong>{{ Session::get('message') }}</strong>
+	</div>
+@endif
+</div>
+
+session()->flash('message', 'Post successfully updated.');
+return redirect()->to('/posts');
+
+
+
+@if(Session::has('success'))
+    <div class="alert alert-success">
+    	<button type="button" class="close" data-dismiss="alert">×</button> 
+        {{Session::get('success')}}
+    </div>
+@endif
+return Redirect::to("/")->withSuccess('Success message');
+
+
+@if(Session::has('fail'))
+    <div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">×</button> 
+       {{Session::get('fail')}}
+    </div>
+@endif
+return Redirect::to("/")->withFail('Error message');
+
+
+@if(Session::has('warning'))
+    <div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">×</button> 
+       {{Session::get('warning')}}
+    </div>
+@endif
+return Redirect::to("/")-->with('warning',"Don't Open this link");
+
+
+@if(Session::has('info'))
+    <div class="alert alert-danger">
+    	<button type="button" class="close" data-dismiss="alert">×</button> 
+       {{Session::get('info')}}
+    </div>
+@endif
+return Redirect::to("/")-->with('info',"Don't Open this link");
+
+
+@if(Session::has('success'))
+  <script type="text/javascript">
+     swal({
+         title:'Success!',
+         text:"{{Session::get('success')}}",
+         timer:5000,
+         type:'success'
+     }).then((value) => {
+       //location.reload();
+     }).catch(swal.noop);
+ </script>
+ @endif
+
+
+@if(Session::has('fail'))
+ <script type="text/javascript">
+    swal({
+        title:'Oops!',
+        text:"{{Session::get('fail')}}",
+        type:'error',
+        timer:5000
+    }).then((value) => {
+      //location.reload();
+    }).catch(swal.noop);
+</script>
+@endif
+
+ -------------------------------------------------------------------------
+ 
+ @if ($message = Session::get('success'))
+<div class="alert alert-success alert-block">
+    <button type="button" class="close" data-dismiss="alert">×</button>    
+    <strong>{{ $message }}</strong>
+</div>
+@endif
+
+@if ($message = Session::get('error'))
+<div class="alert alert-danger alert-block">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>{{ $message }}</strong>
+</div>
+@endif
+
+
+@if ($message = Session::get('warning'))
+<div class="alert alert-warning alert-block">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>{{ $message }}</strong>
+</div>
+@endif
+
+
+@if ($message = Session::get('info'))
+<div class="alert alert-info alert-block">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>{{ $message }}</strong>
+</div>
+@endif
+
+
+@if ($errors->any())
+<div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    Please check the form below for errors
+</div>
+@endif
+
+			-----------------------------------------------------------
+			
+<div id="app">
+    @include('flash-message')
+
+    @yield('content')
+</div>
+			-----------------------------------------------------------
+			
+return back()->with('success','Item created successfully!');	
+return redirect()->route('home')->with('error','You have no permission for this page!');
+return redirect()->route('home')->with('warning',"Don't Open this link");
+return back()->with('info','You added new items, follow next step!');	
+
+--------------------------------------------------------------------------------------------------
+
+@if ($message = Session::get('success'))
+<div class="alert alert-success alert-block">
+    <button type="button" class="close" data-dismiss="alert">×</button>	
+    <strong>{{ $message }}</strong>
+</div>
+@endif
+
+
+@if ($message = Session::get('error'))
+<div class="alert alert-danger alert-block">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>{{ $message }}</strong>
+</div>
+@endif
+
+
+@if ($message = Session::get('warning'))
+<div class="alert alert-warning alert-block">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>{{ $message }}</strong>
+</div>
+@endif
+
+
+@if ($message = Session::get('info'))
+<div class="alert alert-info alert-block">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>{{ $message }}</strong>
+</div>
+@endif
+
+
+@if ($errors->any())
+<div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    Please check the form below for errors
+</div>
+@endif
+			-------------------------------------------------------------------------
+			
+Redirect with Success Flash Message
+return redirect()->route()->with('success','here your success message');
+
+Redirect with error Flash Message
+return redirect()->route()->with('error','here your error message');
+
+Redirect with warning Flash Message
+return redirect()->route()->with('wanrning','Here your warning message');
+
+Redirect with info Flash Message
+return redirect()->route()->with('info','Here your info message');
+
+Redirect with Validation Error Flash Message
+public function store(Request $request)
+{
+    $request->validate([
+       'txtFirstName'=>'required',
+       'txtLastName'=> 'required',
+       'txtAddress' => 'required'
+    ]);
+
+
+public function store(Request $request)
+{
+    $request->validate([
+       'txtFirstName'=>'required',
+       'txtLastName'=> 'required',
+       'txtAddress' => 'required'
+    ]);
+
+}	
+
+-----------------------------------------------------------------------------------------
+
+class="alert alert-primary"
+class="alert alert-secondary"
+class="alert alert-success"
+class="alert alert-danger"
+class="alert alert-warning"
+class="alert alert-info"
+class="alert alert-light"
+class="alert alert-dark"
+
+**************************************************************************************************************************************
+ USE BOOTSTRAP PAGINATE RATHER THAN LIVEWIRE PAGINATE
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
+
+class AppServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
+
+    }
+
+    public function boot()
+    {
+        Paginator::useBootstrap();
+    }
+}

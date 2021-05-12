@@ -1,69 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Add Company Form - Laravel 8 CRUD</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-	<div class="container mt-2">
-		<div class="row">
-			<div class="col-lg-12 margin-tb">
-				<div class="pull-left mb-2">
-					<h2>Add Company</h2>
-					<p> or <a class="btn btn-primary btn-sm" href="{{ route('index') }}">
-						Back</a>
-					</p>
-				</div>
-<!-- 				<div class="pull-right"> -->
-<!-- 					<a class="btn btn-primary btn-sm" href="{{ route('index') }}"> -->
-<!-- 						Back</a> -->
-<!-- 				</div> -->
+@extends('layouts.app')
+
+@section('title')
+	Edit Post
+@endsection
+
+@section('content')
+	<form action="{{ route('postUpdate', $post->id) }}" method="post">
+	@csrf
+	<div class="card card-default">
+		<div class="card-header">
+			Create Post
+		</div>
+		<div class="card-body">
+			<div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control @if($errors->has('title')) is-invalid @endif" name="title" value="{{ $post->title }}">
+                    @if($errors->has('title'))
+                        <div class="invalid-feedback">{{ $errors->first('title') }}</div>
+                    @endif
+            </div>
+            <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea cols="5" rows="3" class="form-control @if($errors->has('description')) is-invalid @endif" name="description">{{ $post->description }}</textarea>
+                    @if($errors->has('description'))
+                        <div class="invalid-feedback">{{ $errors->first('description') }}</div>
+                    @endif
+            </div>
+            <div class="form-group">
+            	<div class="form-check">
+                	<input type="checkbox" class="form-check-input @if($errors->has('description')) is-invalid @endif" name="is_active" value="1" 
+                	@if($post->is_active == 1) checked @endif>
+                    <label class="form-check-label" for="is_active">
+                        Active Post?
+                    </label>
+                    @if($errors->has('is_active'))
+                        <div class="invalid-feedback">{{ $errors->first('is_active') }}</div>
+                    @endif
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary" type="submit">Update</button>
+				<a href="{{ route('postIndex') }}" class="btn btn-default">Cancel</a>
 			</div>
 		</div>
-		
-		@if(session('status'))
-		<div class="alert alert-success mb-1 mt-1">{{ session('status') }}</div>
-		@endif
-		
-		<form action="{{ route('update', $company->id) }}" method="POST"
-			enctype="multipart/form-data">
-			@csrf
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<div class="form-group">
-						<strong>Company Name:</strong> 
-						<input type="text" name="name" class="form-control" 
-						placeholder="Company Name" value="{{ $company->name }}"> 
-						@error('name')
-						<div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-						@enderror
-					</div>
-				</div>
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<div class="form-group">
-						<strong>Company Email:</strong> 
-						<input type="email" name="email" class="form-control" 
-						placeholder="Company Email" value="{{ $company->email }}"> 
-						@error('email')
-						<div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-						@enderror
-					</div>
-				</div>
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<div class="form-group">
-						<strong>Company Address:</strong> 
-						<input type="text" name="address" class="form-control" 
-						placeholder="Company Address" value="{{ $company->address }}">
-						@error('address')
-						<div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-						@enderror
-					</div>
-				</div>
-				<button type="submit" class="btn btn-primary ml-3">Update</button>
-			</div>
-		</form>
-
-</body>
-</html>
+	</div>
+	</form>
+@endsection

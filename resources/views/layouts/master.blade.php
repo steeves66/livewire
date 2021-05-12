@@ -14,7 +14,8 @@
 </head>
 
 <body>
-
+	@include('flashMessage.blade.php')
+	
     @yield('content')
 
     @livewireScripts
