@@ -37,7 +37,32 @@
                     </td>
                     <td>{{ $post->created_at->diffForHumans() }}</td>
                     <td>
-						<a class="btn btn-success" href="{{ route('postEdit', $post->id) }}"> Edit</a>
+                    	<div class="row">
+    						<a class="btn btn-success" href="{{ route('postEdit', $post->id) }}"> Edit</a>
+    						<button class="btn btn-warning" data-toggle="modal" data-target="#delete_post_{{ $post->id }}">Delete</button>
+    						<div class="modal fade" id="delete_post_{{ $post->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <form action="{{ route('postDelete', $post->id) }}" id="form_delete_post_{{ $post->id }}" method="post">
+                                        @csrf
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Delete Confirmation</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure want to delete "<b>{{ $post->title }}</b>" post?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                <button type="submit" class="btn btn-danger">Yes! Delete It</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+						</div>
                     </td>
                 </tr>
             @empty
